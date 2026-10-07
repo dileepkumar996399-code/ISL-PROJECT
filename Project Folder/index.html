@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>CanSat Ground Control Station</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- LEAFLET -->
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- THREE JS -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div class="logo">
+            GCS DASHBOARD V4.1
+        </div>
+
+        <div class="mission-time">
+            MISSION TIME
+            <span id="timer">00:00:00</span>
+        </div>
+
+        <div class="controls">
+
+            <button onclick="startTelemetry()">
+                START
+            </button>
+
+            <button onclick="stopTelemetry()">
+                STOP
+            </button>
+
+            <button onclick="exportCSV()">
+                EXPORT CSV
+            </button>
+
+            <button onclick="resetPackets()">
+                RESET
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+
+        <!-- LEFT PANEL -->
+        <aside class="left-panel">
+
+            <div class="card">
+                <h3>Altitude</h3>
+                <p id="altitude">0 m</p>
+            </div>
+
+            <div class="card">
+                <h3>Temperature</h3>
+                <p id="temperature">0 °C</p>
+            </div>
+
+            <div class="card">
+                <h3>Pressure</h3>
+                <p id="pressure">0 hPa</p>
+            </div>
+
+            <div class="card">
+                <h3>Battery</h3>
+                <p id="battery">0 V</p>
+            </div>
+
+            <div class="card">
+                <h3>Descent Rate</h3>
+                <p id="descent">0 m/s</p>
+            </div>
+
+        </aside>
+
+        <!-- CENTER PANEL -->
+        <main class="center-panel">
+
+            <!-- 3D ORIENTATION -->
+            <div class="orientation-panel">
+                <h2>3D ORIENTATION</h2>
+                <div id="threejs-container"></div>
+            </div>
+
+            <!-- GRAPH -->
+            <div class="graph-panel">
+                <canvas id="telemetryChart"></canvas>
+            </div>
+
+        </main>
+
+        <!-- RIGHT PANEL -->
+        <aside class="right-panel">
+
+            <!-- VIDEO -->
+            <div class="video-panel">
+
+                <h2>LIVE VIDEO</h2>
+
+                <video
+                id="video"
+                autoplay
+                muted>
+                </video>
+
+            </div>
+
+            <!-- ERROR -->
+            <div class="error-panel">
+
+    <div class="error-title">
+        SYSTEM FAULT REGISTER
+    </div>
+
+    <span id="errorCode">
+        0000
+    </span>
+
+    <div class="error-status">
+        STATUS: NOMINAL
+    </div>
+
+</div>
+
+           
+     <div class="mission-panel">
+
+                <button onclick="manualSeparation()">
+                    SEPARATE
+                </button>
+
+                <button onclick="deployParachute()">
+                    PARACHUTE
+                </button>
+
+                <button onclick="redundantActivation()">
+                    REDUNDANT
+                </button>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+
+    <!-- MAP -->
+    <section class="map-panel">
+
+        <h2>GPS TRACKING</h2>
+
+        <div id="map"></div>
+
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
+<div id="threejs-container"></div>
+<div class="orientation-data">
+
+    <span id="pitchVal">Pitch: 0°</span>
+    <span id="yawVal">Yaw: 0°</span>
+    <span id="rollVal">Roll: 0°</span>
+
+</div>
+
+</body>
+</html>
